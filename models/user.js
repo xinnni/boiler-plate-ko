@@ -82,11 +82,11 @@ userSchema.methods.comparePassword = function(plainPassword, callback) {
  userSchema.methods.generateToken = function(callback) {
      // 웹토큰을 이용해서 토큰을 생성해야 한다.
      let user = this;
-     let token = jwt.sign(user._id.toString(), 'secretToken')
+     let token = jwt.sign(user._id.toHexString(), 'secretToken')
 
     // user._id + 'secretToken' = token
 
-    user.token = token
+    user.token = tokena
     user.save(function(err, user) {
         if(err) return callback(err)
         callback(null, user)
