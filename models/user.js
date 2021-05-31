@@ -74,7 +74,7 @@ userSchema.methods.comparePassword = function(plainPassword, callback) {
     // 비밀번호를 비교할 때 플레인 패스워드가 있다면 데이터 베이스에 있는 암호화된 비밀번호가 같은지 체크를 해야 하는데,
     // 들어오는 비밀번호도 암호화를 해야 한다;; 
     bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
-        if(err) return callback(err),
+        if(err) return callback(err)
         callback(null, isMatch)
     })
 }
@@ -86,7 +86,7 @@ userSchema.methods.comparePassword = function(plainPassword, callback) {
 
     // user._id + 'secretToken' = token
 
-    user.token = tokena
+    user.token = token
     user.save(function(err, user) {
         if(err) return callback(err)
         callback(null, user)
