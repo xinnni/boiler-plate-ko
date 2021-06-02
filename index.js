@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 5500;
 const { User } = require('./models/User');
+const { auth } = require('./middleware/auth')
 const config = require('./config/key')
 // const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -19,7 +20,7 @@ app.use(cookieParser());
   // })
 
 
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
   // 클라이언트에서 보내 주는 이름과 이메일, 패스워드, 회원가입 때 필요한 정보들을 
   // 데이터 베이스에 넣어 준다.
   const user = new User(req.body)
@@ -63,6 +64,22 @@ app.post('/login', (req, res) => {
 // 비밀번호가 맞다면 토큰(??)을 생성해야 한다. 
 
 // 토큰이란..? 
+app.get('/api/users/auth', auth, (req, res) => {
+  // 미들웨어란 콜백 하기 전에 중간 역할을 해 주는 것인데..
+
+  // 미들웨어 통과 => 
+  res.status(200).json({
+    _id: req.user._Id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image
+  })
+
+})
 
 
 
